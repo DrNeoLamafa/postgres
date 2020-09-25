@@ -1,0 +1,20 @@
+/* 	Внутренняя база - база из которой производим изменения
+	Внешняя база - к которой подключаемся и в которой производим изменения
+
+	Создаём расширение во внутренней базе команда CREATE EXTENSION dblink;
+	Далее создаём процедуру во внутренней базе 
+
+
+*/
+
+create procedure Увеличить()
+language plpgsql
+as $$
+begin
+perform dblink_connect('host=127.0.0.1
+ user=postgres
+ password=admin
+ dbname=postgres');
+
+perform dblink_exec('Update Город set Тариф=Тариф + (Тариф * 15) / 100'); -- Комадна увеличения на процент (15%)
+end;$$
